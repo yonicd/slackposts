@@ -1,0 +1,51 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# slackposts
+
+<!-- badges: start -->
+[![Covrpage Summary](https://img.shields.io/badge/covrpage-Last_Build_2020_08_13-brightgreen.svg)](http://tinyurl.com/qq3vz59)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![R-win build status](https://github.com/yonicd/slackposts/workflows/R-win/badge.svg)](https://github.com/yonicd/slackposts)
+[![R-mac build status](https://github.com/yonicd/slackposts/workflows/R-mac/badge.svg)](https://github.com/yonicd/slackposts)
+[![R-linux build status](https://github.com/yonicd/slackposts/workflows/R-linux/badge.svg)](https://github.com/yonicd/slackposts)
+[![Codecov test coverage](https://codecov.io/gh/yonicd/slackposts/branch/master/graph/badge.svg)](https://codecov.io/gh/yonicd/slackposts?branch=master)
+<!-- badges: end -->
+
+`slackposts` is a part of `slackverse`
+
+```{r,echo = FALSE, eval = TRUE}
+pkgs <- sprintf('slack%s',c('calls','teams','posts','blocks','threads','reprex'))
+
+badges <- sprintf('%s<br>[![](https://github.com/yonicd/%s/workflows/R-mac/badge.svg)](https://github.com/yonicd/%s)',pkgs,pkgs,pkgs)
+
+names(badges) <- pkgs
+
+```
+
+||||
+|:-:|:-:|:-:|
+||`r badges[pkgs[1]]`<br>`r emo::ji('down_left_arrow')``r emo::ji('down_arrow')``r emo::ji('down_right_arrow')`||
+|`r badges[pkgs[5]]`|`r badges[pkgs[2]]`<br>`r emo::ji('left_arrow')``r emo::ji('down_right_arrow')`|`r badges[pkgs[4]]`<br>`r emo::ji('down_arrow')`|
+|||`r badges[pkgs[4]]`<br>`r emo::ji('down_arrow')`|
+|||`r badges[pkgs[6]]`|
+
+`slackposts` is an `R` package that allows the user to manage multiple Slack teams during a session. 
+
+## Installation
+
+``` r
+remotes::install_github("yonicd/slackposts")
+```
