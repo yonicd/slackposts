@@ -1,6 +1,7 @@
 #' @title Interact with Files
 #' @description Send, list, retrieve information or Delete a file.
 #' @param channels character, Channel ID(s) to post file
+#' @param content character, content of snippet
 #' @param file character, file ID
 #' @param ... arguments to pass to API method.
 #' @param token Character. Your Slack API token. Default: Sys.getenv("SLACK_API_TOKEN")

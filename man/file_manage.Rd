@@ -13,6 +13,8 @@ file_post(file, channels, ..., token = Sys.getenv("SLACK_API_TOKEN"))
 file_delete(file, token = Sys.getenv("SLACK_API_TOKEN"))
 }
 \arguments{
+\item{content}{character, content of snippet}
+
 \item{channels}{character, Channel ID(s) to post file}
 
 \item{...}{arguments to pass to API method.}

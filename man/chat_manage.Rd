@@ -12,17 +12,53 @@
 \usage{
 chat_message(channel, ..., token = Sys.getenv("SLACK_API_TOKEN"))
 
-chat_update(channel, ts, ..., token = Sys.getenv("SLACK_API_TOKEN"))
+chat_update(
+  post = NULL,
+  channel = NULL,
+  ts = NULL,
+  ...,
+  token = Sys.getenv("SLACK_API_TOKEN")
+)
 
-chat_delete(channel, ts, ..., token = Sys.getenv("SLACK_API_TOKEN"))
+chat_delete(
+  post = NULL,
+  channel = NULL,
+  ts = NULL,
+  ...,
+  token = Sys.getenv("SLACK_API_TOKEN")
+)
 
-\method{chat_update}{default}(channel, ts, ..., token = Sys.getenv("SLACK_API_TOKEN"))
+\method{chat_update}{default}(
+  post = NULL,
+  channel = NULL,
+  ts = NULL,
+  ...,
+  token = Sys.getenv("SLACK_API_TOKEN")
+)
 
-\method{chat_delete}{default}(channel, ts, ..., token = Sys.getenv("SLACK_API_TOKEN"))
+\method{chat_delete}{default}(
+  post = NULL,
+  channel = NULL,
+  ts = NULL,
+  ...,
+  token = Sys.getenv("SLACK_API_TOKEN")
+)
 
-\method{chat_update}{slackpost}(post, ..., token = Sys.getenv("SLACK_API_TOKEN"))
+\method{chat_update}{slackpost}(
+  post = NULL,
+  channel = NULL,
+  ts = NULL,
+  ...,
+  token = Sys.getenv("SLACK_API_TOKEN")
+)
 
-\method{chat_delete}{slackpost}(post, ..., token = Sys.getenv("SLACK_API_TOKEN"))
+\method{chat_delete}{slackpost}(
+  post = NULL,
+  channel = NULL,
+  ts = NULL,
+  ...,
+  token = Sys.getenv("SLACK_API_TOKEN")
+)
 }
 \arguments{
 \item{channel}{character, Channel ID}
@@ -31,9 +67,9 @@ chat_delete(channel, ts, ..., token = Sys.getenv("SLACK_API_TOKEN"))
 
 \item{token}{Character. Your Slack API token. Default: Sys.getenv("SLACK_API_TOKEN")}
 
-\item{ts}{character, timestamp}
-
 \item{post}{slackpost class object that contains meta information to identify a post.}
+
+\item{ts}{character, timestamp}
 }
 \value{
 A list with an additional class corresponding to \code{slack_method}.

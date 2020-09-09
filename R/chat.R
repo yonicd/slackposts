@@ -21,19 +21,19 @@ chat_message <- function(channel, ..., token = Sys.getenv('SLACK_API_TOKEN')){
 
 #' @rdname chat_manage
 #' @export
-chat_update <- function(channel, ts,...,token = Sys.getenv('SLACK_API_TOKEN')){
+chat_update <- function(post = NULL, channel = NULL, ts = NULL, ..., token = Sys.getenv('SLACK_API_TOKEN')){
   UseMethod('chat_update')
 }
 
 #' @rdname chat_manage
 #' @export
-chat_delete <- function(channel, ts,...,token = Sys.getenv('SLACK_API_TOKEN')){
+chat_delete <- function(post = NULL, channel = NULL, ts = NULL, ..., token = Sys.getenv('SLACK_API_TOKEN')){
   UseMethod('chat_delete')
 }
 
 #' @rdname chat_manage
 #' @export
-chat_update.default <- function(channel, ts,...,token = Sys.getenv('SLACK_API_TOKEN')){
+chat_update.default <- function(post = NULL, channel = NULL, ts = NULL, ..., token = Sys.getenv('SLACK_API_TOKEN')){
 
   slackcalls::chat_slack(slack_method = 'chat.update',
                          token = token,
@@ -46,7 +46,7 @@ chat_update.default <- function(channel, ts,...,token = Sys.getenv('SLACK_API_TO
 
 #' @rdname chat_manage
 #' @export
-chat_delete.default <- function(channel, ts,...,token = Sys.getenv('SLACK_API_TOKEN')){
+chat_delete.default <- function(post = NULL, channel = NULL, ts = NULL, ..., token = Sys.getenv('SLACK_API_TOKEN')){
 
   slackcalls::chat_slack(slack_method = 'chat.delete',
                          token = token,
@@ -58,13 +58,13 @@ chat_delete.default <- function(channel, ts,...,token = Sys.getenv('SLACK_API_TO
 
 #' @rdname chat_manage
 #' @export
-chat_update.slackpost <- function(post,...,token = Sys.getenv('SLACK_API_TOKEN')){
+chat_update.slackpost <- function(post = NULL, channel = NULL, ts = NULL, ...,token = Sys.getenv('SLACK_API_TOKEN')){
   chat_update(channel = post$channel,ts = post$ts,..., token = token)
 }
 
 #' @rdname chat_manage
 #' @export
-chat_delete.slackpost <- function(post,...,token = Sys.getenv('SLACK_API_TOKEN')){
+chat_delete.slackpost <- function(post = NULL, channel = NULL, ts = NULL,...,token = Sys.getenv('SLACK_API_TOKEN')){
   chat_delete(channel = post$channel,ts = post$ts,..., token = token)
 }
 
