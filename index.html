@@ -72,6 +72,7 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
+
 <div id="slackposts" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#slackposts" class="anchor"></a>slackposts</h1></div>
@@ -102,7 +103,7 @@
 </td>
 </tr>
 </tbody></table>
-<p><code>slackposts</code> is an <code>R</code> package that allows the user to manage multiple Slack teams during a session.</p>
+<p><code>slackposts</code> is an <code>R</code> package that allows the user to interact with slack API chat messages, snippets and files from R.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -110,7 +111,94 @@
 <span class="kw">remotes</span>::<span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"yonicd/slackposts"</span>)
 </pre></div>
 </div>
+<div id="usage" class="section level2">
+<h2 class="hasAnchor">
+<a href="#usage" class="anchor"></a>Usage</h2>
+<div id="token" class="section level3">
+<h3 class="hasAnchor">
+<a href="#token" class="anchor"></a>Token</h3>
+<p>First you need a Slack API Token, to learn how to create one go to <a href="https://github.com/yonicd/slackteams">slackteams</a> or set it directly as the environment variable <code><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv('SLACK_API_TOKEN')</a></code>.</p>
 </div>
+<div id="load" class="section level3">
+<h3 class="hasAnchor">
+<a href="#load" class="anchor"></a>Load</h3>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw">slackposts</span>)
+</pre></div>
+</div>
+<div id="chats" class="section level3">
+<h3 class="hasAnchor">
+<a href="#chats" class="anchor"></a>Chats</h3>
+<div id="post-a-message" class="section level4">
+<h4 class="hasAnchor">
+<a href="#post-a-message" class="anchor"></a>Post a message</h4>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu">chat_post</span>(
+  channels = <span class="st">"general"</span>,
+  text = <span class="st">'my message'</span>
+  )
+</pre></div>
+</div>
+<div id="update-a-message" class="section level4">
+<h4 class="hasAnchor">
+<a href="#update-a-message" class="anchor"></a>Update a message</h4>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="fu"><a href="reference/chat_message.html">chat_update</a></span>(
+  post = <span class="kw">slackposts</span>::<span class="fu"><a href="reference/post_last.html">post_last</a></span>(),
+  text = <span class="st">'my updated message'</span>
+  )
+</pre></div>
+</div>
+<div id="delete-message" class="section level4">
+<h4 class="hasAnchor">
+<a href="#delete-message" class="anchor"></a>Delete Message</h4>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="fu"><a href="reference/chat_message.html">chat_delete</a></span>(
+  post = <span class="kw">slackposts</span>::<span class="fu"><a href="reference/post_last.html">post_last</a></span>()
+  )
+</pre></div>
+</div>
+</div>
+<div id="files" class="section level3">
+<h3 class="hasAnchor">
+<a href="#files" class="anchor"></a>Files</h3>
+<div id="create-a-temp-file" class="section level4">
+<h4 class="hasAnchor">
+<a href="#create-a-temp-file" class="anchor"></a>Create a temp file</h4>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="kw">tf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(fileext = <span class="st">'.r'</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(
+  <span class="kw">utils</span>::<span class="fu"><a href="https://rdrr.io/r/utils/capture.output.html">capture.output</a></span>(<span class="kw">utils</span>::<span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span>()),
+  file = <span class="kw">tf</span>,
+  sep = <span class="st">'\n'</span>
+)
+</pre></div>
+</div>
+<div id="post-the-file" class="section level4">
+<h4 class="hasAnchor">
+<a href="#post-the-file" class="anchor"></a>Post the file</h4>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+
+<span class="fu"><a href="reference/snippet_post.html">file_post</a></span>(
+  channels = <span class="st">"general"</span>,
+  file = <span class="kw">tf</span>,
+  filename = <span class="st">'sessionInfo.R'</span>,
+  filetype = <span class="st">'r'</span>,
+  title = <span class="st">'R sessionInfo'</span>
+)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div id="delete-the-file" class="section level1">
+<h1 class="hasAnchor">
+<a href="#delete-the-file" class="anchor"></a>Delete the file</h1>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="fu"><a href="reference/snippet_post.html">file_delete</a></span>(<span class="fu"><a href="reference/file_last.html">file_last</a></span>())
+</pre></div>
+</div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
