@@ -10,7 +10,7 @@ Authors@R:
 Description: Manage messages, files and snippets methods of Slack API in R.
 License: MIT + file LICENSE
 Imports: slackcalls, magrittr
-Remotes: yonicd/slackcalls@refactor
+Remotes: yonicd/slackcalls
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
