@@ -1,64 +1,227 @@
-# Environment Variable Must be Defined (Either by Local .Renviron or Environment variable on CI.)
-token <- Sys.getenv('SLACK_API_TOKEN')
+# Set up tests. ---------------------------------------------------------------
+# While this *could* go into a setup.R file, that makes interactive testing
+# annoying. I compromised and put it in a collapsible block at the top of each
+# test file.
 
-channel <- "DNRKMTFGD"
+# To test the API:
 
-testthat::describe("chat post", {
+# Sys.setenv(SLACK_API_TEST_MODE = "true")
 
-  res <- chat_message(channel = channel, token = token, text = 'test')
+# To capture test data:
 
-  it('True result',{
-    testthat::expect_true(res$ok)
-  })
+# Sys.setenv(SLACK_API_TEST_MODE = "capture")
 
-  it('Validate Content',{
-    testthat::expect_equal(res$message$text,'test')
-  })
+# To go back to a "normal" mode:
+
+# Sys.unsetenv("SLACK_API_TEST_MODE")
+
+slack_api_test_mode <- Sys.getenv("SLACK_API_TEST_MODE")
+withr::defer(rm(slack_api_test_mode))
+
+library(httptest)
+
+# All tests use #slack-r on slackr-test (or a mocked version of it).
+slack_test_channel <- "CNTFB9215"
+withr::defer(rm(slack_test_channel))
+sleep_secs <- 0L
+withr::defer(rm(sleep_secs))
+
+if (slack_api_test_mode == "true" || slack_api_test_mode == "capture") {
+  # In these modes we need a real API token. If one isn't set, this should throw
+  # an error right away.
+  if (Sys.getenv("SLACK_API_TOKEN") == "") {
+    stop(
+      "No SLACK_API_TOKEN available, cannot test. \n",
+      "Unset SLACK_API_TEST_MODE to use mock.")
+  }
+  sleep_secs <- 1L
+
+  if (slack_api_test_mode == "true") {
+    # Override the main mock function from httptest, so we use the real API.
+    with_mock_api <- force
+  } else {
+    # This tricks httptest into capturing results instead of actually testing.
+    with_mock_api <- httptest::capture_requests
+  }
+  withr::defer(rm(with_mock_api))
+}
+
+
+# Tests. -----------------------------------------------------------------------
+
+test_that("Can delete any existing content", {
+  # The strategy here (for the live tests) is somewhat opposite of the usual
+  # "leave things unchanged" philosophy. This package will clear out the
+  # #slack-r channel on the test Slack, and then repopulate it.
+
+  # We'll still do formal delete tests separately, since it's possible there
+  # won't be anything for this step to delete.
+  expect_error(
+    with_mock_api({
+      existing <- slackcalls::post_slack(
+        slack_method = "conversations.history",
+        channel = slack_test_channel
+      )
+    }),
+    NA
+  )
+
+  if (length(existing$messages)) {
+    for (msg in existing$messages) {
+      if (length(msg$ts)) {
+        # First delete any replies.
+        if (length(msg$thread_ts)) {
+          expect_error(
+            with_mock_api({
+              replies <- slackcalls::post_slack(
+                slack_method = 'conversations.replies',
+                ts = msg$ts,
+                channel = slack_test_channel
+              )
+            }),
+            NA
+          )
+          if (length(replies$messages)) {
+            for (reply in replies$messages) {
+              expect_error(
+                with_mock_api({
+                  chat_delete(
+                    channel = slack_test_channel,
+                    ts = reply$ts
+                  )
+                  # Add an extra sleep in these to avoid weird rate limit hits.
+                  Sys.sleep(sleep_secs)
+                }),
+                NA
+              )
+            }
+          }
+        }
+
+        # Then we can clear out the associated message.
+        expect_error(
+          with_mock_api({
+            chat_delete(
+              channel = slack_test_channel,
+              ts = msg$ts
+            )
+            # Add an extra sleep in these to avoid weird rate limit hits.
+            Sys.sleep(sleep_secs)
+          }),
+          NA
+        )
+      }
+    }
+  }
+
 
 })
 
-testthat::describe("chat update", {
+test_that("Can post a message", {
+  expect_error(
+    with_mock_api({
+      res <- chat_message(
+        channel = slack_test_channel,
+        text = "test"
+      )
+    }),
+    NA
+  )
 
-  lp <- post_last()
-
-  res <- chat_update(channel = lp$channel, ts = lp$ts, token = token, text = 'test direct')
-
-  it('True result manual',{
-    testthat::expect_true(res$ok)
-  })
-
-  it('Validate Content manual',{
-    testthat::expect_equal(res$message$text,'test direct')
-  })
-
-  res <- chat_update(post = lp, token = token, text = 'test object')
-
-  it('True result slackpost object',{
-    testthat::expect_true(res$ok)
-  })
-
-  it('Validate Content  slackpost object',{
-    testthat::expect_equal(res$message$text,'test object')
-  })
-
+  expect_true(res$ok)
+  expect_identical(res$message$text, "test")
 })
 
-testthat::describe("chat delete", {
+test_that("Can update that message", {
+  new_msg <- post_last()
+  expect_error(
+    with_mock_api({
+      res <- chat_update(
+        channel = new_msg$channel,
+        ts = new_msg$ts,
+        text = "test text update"
+      )
+    }),
+    NA
+  )
+  expect_true(res$ok)
+  expect_identical(res$message$text, "test text update")
 
-  lp <- post_last()
+  expect_error(
+    with_mock_api({
+      res <- chat_update(
+        post = new_msg,
+        text = "test object update"
+      )
+    }),
+    NA
+  )
+  expect_true(res$ok)
+  expect_identical(res$message$text, "test object update")
+})
 
-  res <- chat_delete(channel = lp$channel, ts = lp$ts, token = token, text = 'test direct')
+test_that("Can delete that post", {
+  new_msg <- post_last()
+  expect_error(
+    with_mock_api({
+      res <- chat_delete(
+        channel = new_msg$channel,
+        ts = new_msg$ts
+      )
+    }),
+    NA
+  )
+  expect_true(res$ok)
 
-  it('True result manual',{
-    testthat::expect_true(res$ok)
-  })
+  # And a new one as an object.
+  expect_error(
+    with_mock_api({
+      chat_message(
+        channel = slack_test_channel,
+        text = "delete me"
+      )
+    }),
+    NA
+  )
 
-  chat_message(channel = channel, token = token, text = 'test')
+  expect_error(
+    with_mock_api({
+      res <- chat_delete(
+        post = post_last()
+      )
+    }),
+    NA
+  )
+  expect_true(res$ok)
+})
 
-  res <- chat_delete(post = post_last(), token = token, text = 'test direct')
+test_that("Can post messages to restore the channel to its desired state", {
+  # Post messages with content "1" through "20".
+  for (i in 1:20) {
+    expect_error(
+      with_mock_api({
+        chat_message(
+          channel = slack_test_channel,
+          text = i
+        )
+      }),
+      NA
+    )
+  }
+})
 
-  it('True result slackpost object',{
-    testthat::expect_true(res$ok)
-  })
-
+test_that("Can reply to a message", {
+  # Also post a reply to 20.
+  expect_error(
+    with_mock_api({
+      res <- chat_message(
+        channel = slack_test_channel,
+        thread_ts = post_last()$ts,
+        text = "this is a reply"
+      )
+    }),
+    NA
+  )
+  expect_true(res$ok)
+  expect_identical(res$message$text, "this is a reply")
 })

@@ -1,0 +1,44 @@
+{
+    "ok": true,
+    "channel": "CNTFB9215",
+    "ts": "1677187271.215979",
+    "message": {
+        "bot_id": "B020LPDNVM1",
+        "type": "message",
+        "text": "15",
+        "user": "U0111B8S0LX",
+        "ts": "1677187271.215979",
+        "app_id": "AV8AWRPT4",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "Mtk",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "15"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "team": "TNE5M7UGK",
+        "bot_profile": {
+            "id": "B020LPDNVM1",
+            "app_id": "AV8AWRPT4",
+            "name": "slackteams",
+            "icons": {
+                "image_36": "https://a.slack-edge.com/80588/img/plugins/app/bot_36.png",
+                "image_48": "https://a.slack-edge.com/80588/img/plugins/app/bot_48.png",
+                "image_72": "https://a.slack-edge.com/80588/img/plugins/app/service_72.png"
+            },
+            "deleted": false,
+            "updated": 1619810215,
+            "team_id": "TNE5M7UGK"
+        }
+    }
+}
