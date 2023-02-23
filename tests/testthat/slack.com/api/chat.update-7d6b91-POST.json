@@ -1,25 +1,25 @@
 {
     "ok": true,
     "channel": "CNTFB9215",
-    "ts": "1677184978.866419",
-    "text": "test text update",
+    "ts": "1677187262.520279",
+    "text": "test object update",
     "message": {
         "bot_id": "B020LPDNVM1",
         "type": "message",
-        "text": "test text update",
+        "text": "test object update",
         "user": "U0111B8S0LX",
         "app_id": "AV8AWRPT4",
         "blocks": [
             {
                 "type": "rich_text",
-                "block_id": "xiyG",
+                "block_id": "FT+",
                 "elements": [
                     {
                         "type": "rich_text_section",
                         "elements": [
                             {
                                 "type": "text",
-                                "text": "test text update"
+                                "text": "test object update"
                             }
                         ]
                     }
@@ -42,7 +42,7 @@
         },
         "edited": {
             "user": "B020LPDNVM1",
-            "ts": "1677184979.000000"
+            "ts": "1677187263.000000"
         }
     }
 }

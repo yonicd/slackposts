@@ -1,18 +1,18 @@
 {
     "ok": true,
     "channel": "CNTFB9215",
-    "ts": "1677184984.316859",
+    "ts": "1677187267.836049",
     "message": {
         "bot_id": "B020LPDNVM1",
         "type": "message",
         "text": "7",
         "user": "U0111B8S0LX",
-        "ts": "1677184984.316859",
+        "ts": "1677187267.836049",
         "app_id": "AV8AWRPT4",
         "blocks": [
             {
                 "type": "rich_text",
-                "block_id": "kXJL",
+                "block_id": "oFI",
                 "elements": [
                     {
                         "type": "rich_text_section",

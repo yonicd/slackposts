@@ -23,6 +23,8 @@ library(httptest)
 # All tests use #slack-r on slackr-test (or a mocked version of it).
 slack_test_channel <- "CNTFB9215"
 withr::defer(rm(slack_test_channel))
+sleep_secs <- 0L
+withr::defer(rm(sleep_secs))
 
 if (slack_api_test_mode == "true" || slack_api_test_mode == "capture") {
   # In these modes we need a real API token. If one isn't set, this should throw
@@ -32,6 +34,7 @@ if (slack_api_test_mode == "true" || slack_api_test_mode == "capture") {
       "No SLACK_API_TOKEN available, cannot test. \n",
       "Unset SLACK_API_TEST_MODE to use mock.")
   }
+  sleep_secs <- 1L
 
   if (slack_api_test_mode == "true") {
     # Override the main mock function from httptest, so we use the real API.
@@ -87,7 +90,7 @@ test_that("Can delete any existing content", {
                     ts = reply$ts
                   )
                   # Add an extra sleep in these to avoid weird rate limit hits.
-                  Sys.sleep(1)
+                  Sys.sleep(sleep_secs)
                 }),
                 NA
               )
@@ -103,7 +106,7 @@ test_that("Can delete any existing content", {
               ts = msg$ts
             )
             # Add an extra sleep in these to avoid weird rate limit hits.
-            Sys.sleep(1)
+            Sys.sleep(sleep_secs)
           }),
           NA
         )

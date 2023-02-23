@@ -1,18 +1,18 @@
 {
     "ok": true,
     "channel": "CNTFB9215",
-    "ts": "1677184980.703679",
+    "ts": "1677187264.328239",
     "message": {
         "bot_id": "B020LPDNVM1",
         "type": "message",
         "text": "delete me",
         "user": "U0111B8S0LX",
-        "ts": "1677184980.703679",
+        "ts": "1677187264.328239",
         "app_id": "AV8AWRPT4",
         "blocks": [
             {
                 "type": "rich_text",
-                "block_id": "Lhph",
+                "block_id": "mMOst",
                 "elements": [
                     {
                         "type": "rich_text_section",

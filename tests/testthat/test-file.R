@@ -23,6 +23,8 @@ library(httptest)
 # All tests use #slack-r on slackr-test (or a mocked version of it).
 slack_test_channel <- "CNTFB9215"
 withr::defer(rm(slack_test_channel))
+sleep_secs <- 0L
+withr::defer(rm(sleep_secs))
 
 if (slack_api_test_mode == "true" || slack_api_test_mode == "capture") {
   # In these modes we need a real API token. If one isn't set, this should throw
@@ -32,6 +34,8 @@ if (slack_api_test_mode == "true" || slack_api_test_mode == "capture") {
       "No SLACK_API_TOKEN available, cannot test. \n",
       "Unset SLACK_API_TEST_MODE to use mock.")
   }
+
+  sleep_secs <- 1L
 
   if (slack_api_test_mode == "true") {
     # Override the main mock function from httptest, so we use the real API.
@@ -62,7 +66,7 @@ test_that("Can post snippets", {
   expect_identical(res$file$preview, "test")
 
   # Sleep after this to keep the API from getting confused.
-  Sys.sleep(1)
+  Sys.sleep(sleep_secs)
 })
 
 test_that("Can delete snippets", {
@@ -108,7 +112,7 @@ test_that("Can post files", {
   expect_equal(res$file$title, "R Code")
 
   # Sleep after this to keep the API from getting confused.
-  Sys.sleep(1)
+  Sys.sleep(sleep_secs)
 })
 
 test_that("Can delete files", {

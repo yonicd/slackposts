@@ -6,12 +6,12 @@
             "type": "message",
             "text": "20",
             "user": "U0111B8S0LX",
-            "ts": "1677184257.785859",
+            "ts": "1677187112.785399",
             "app_id": "AV8AWRPT4",
             "blocks": [
                 {
                     "type": "rich_text",
-                    "block_id": "gFMf",
+                    "block_id": "5lQ",
                     "elements": [
                         {
                             "type": "rich_text_section",
@@ -39,28 +39,28 @@
                 },
                 "team_id": "TNE5M7UGK"
             },
-            "thread_ts": "1677184257.785859",
+            "thread_ts": "1677187112.785399",
             "reply_count": 1,
             "reply_users_count": 1,
-            "latest_reply": "1677184258.257939",
+            "latest_reply": "1677187112.931259",
             "reply_users": [
                 "U0111B8S0LX"
             ],
             "is_locked": false,
             "subscribed": true,
-            "last_read": "1677184258.257939"
+            "last_read": "1677187112.931259"
         },
         {
             "bot_id": "B020LPDNVM1",
             "type": "message",
             "text": "this is a reply",
             "user": "U0111B8S0LX",
-            "ts": "1677184258.257939",
+            "ts": "1677187112.931259",
             "app_id": "AV8AWRPT4",
             "blocks": [
                 {
                     "type": "rich_text",
-                    "block_id": "9Z4S",
+                    "block_id": "VC4",
                     "elements": [
                         {
                             "type": "rich_text_section",
@@ -88,7 +88,7 @@
                 "updated": 1619810215,
                 "team_id": "TNE5M7UGK"
             },
-            "thread_ts": "1677184257.785859",
+            "thread_ts": "1677187112.785399",
             "parent_user_id": "U0111B8S0LX"
         }
     ],
