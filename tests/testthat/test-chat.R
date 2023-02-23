@@ -86,6 +86,8 @@ test_that("Can delete any existing content", {
                     channel = slack_test_channel,
                     ts = reply$ts
                   )
+                  # Add an extra sleep in these to avoid weird rate limit hits.
+                  Sys.sleep(1)
                 }),
                 NA
               )
@@ -100,6 +102,8 @@ test_that("Can delete any existing content", {
               channel = slack_test_channel,
               ts = msg$ts
             )
+            # Add an extra sleep in these to avoid weird rate limit hits.
+            Sys.sleep(1)
           }),
           NA
         )

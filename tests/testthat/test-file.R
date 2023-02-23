@@ -50,7 +50,7 @@ test_that("Can post snippets", {
   expect_error(
     with_mock_api({
       res <- snippet_post(
-        channel = slack_test_channel,
+        channels = slack_test_channel,
         content = "test"
       )
     }),
@@ -60,6 +60,9 @@ test_that("Can post snippets", {
   expect_true(res$ok)
   expect_identical(res$file$mode, "snippet")
   expect_identical(res$file$preview, "test")
+
+  # Sleep after this to keep the API from getting confused.
+  Sys.sleep(1)
 })
 
 test_that("Can delete snippets", {
@@ -84,13 +87,8 @@ test_that("Can post files", {
   )
 
   tf <- withr::local_tempfile(
+    lines = c("x <- 2", "x^2"),
     fileext = ".R"
-  )
-
-  cat(
-    utils::capture.output(utils::sessionInfo()),
-    file = tf,
-    sep = '\n'
   )
 
   expect_error(
@@ -98,16 +96,19 @@ test_that("Can post files", {
       res <- file_post(
         channels = slack_test_channel,
         file = tf,
-        filename = "sessionInfo.R",
+        filename = "R_code.R",
         filetype = "r",
-        title = "R sessionInfo"
+        title = "R Code"
       )
     },
     NA
   )
 
   expect_true(res$ok)
-  expect_equal(res$file$title, "R sessionInfo")
+  expect_equal(res$file$title, "R Code")
+
+  # Sleep after this to keep the API from getting confused.
+  Sys.sleep(1)
 })
 
 test_that("Can delete files", {
