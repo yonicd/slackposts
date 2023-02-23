@@ -1,0 +1,48 @@
+{
+    "ok": true,
+    "channel": "CNTFB9215",
+    "ts": "1677184978.866419",
+    "text": "test object update",
+    "message": {
+        "bot_id": "B020LPDNVM1",
+        "type": "message",
+        "text": "test object update",
+        "user": "U0111B8S0LX",
+        "app_id": "AV8AWRPT4",
+        "blocks": [
+            {
+                "type": "rich_text",
+                "block_id": "B0HYH",
+                "elements": [
+                    {
+                        "type": "rich_text_section",
+                        "elements": [
+                            {
+                                "type": "text",
+                                "text": "test object update"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "team": "TNE5M7UGK",
+        "bot_profile": {
+            "id": "B020LPDNVM1",
+            "app_id": "AV8AWRPT4",
+            "name": "slackteams",
+            "icons": {
+                "image_36": "https://a.slack-edge.com/80588/img/plugins/app/bot_36.png",
+                "image_48": "https://a.slack-edge.com/80588/img/plugins/app/bot_48.png",
+                "image_72": "https://a.slack-edge.com/80588/img/plugins/app/service_72.png"
+            },
+            "deleted": false,
+            "updated": 1619810215,
+            "team_id": "TNE5M7UGK"
+        },
+        "edited": {
+            "user": "B020LPDNVM1",
+            "ts": "1677184979.000000"
+        }
+    }
+}

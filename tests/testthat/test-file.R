@@ -1,35 +1,91 @@
-# Environment Variable Must be Defined (Either by Local .Renviron or Environment variable on CI.)
-token <- Sys.getenv('SLACK_API_TOKEN')
+# Set up tests. ---------------------------------------------------------------
+# While this *could* go into a setup.R file, that makes interactive testing
+# annoying. I compromised and put it in a collapsible block at the top of each
+# test file.
 
-channel <- "DNRKMTFGD"
+# To test the API:
 
-testthat::describe("snippet post", {
+# Sys.setenv(SLACK_API_TEST_MODE = "true")
 
-  res <- snippet_post(channel = channel, token = token, content = 'test')
+# To capture test data:
 
-  it('True result',{
-    testthat::expect_true(res$ok)
-  })
+# Sys.setenv(SLACK_API_TEST_MODE = "capture")
 
-  it('Validate Content',{
-    testthat::expect_equal(res$file$mode,'snippet')
-  })
+# To go back to a "normal" mode:
 
+# Sys.unsetenv("SLACK_API_TEST_MODE")
+
+slack_api_test_mode <- Sys.getenv("SLACK_API_TEST_MODE")
+withr::defer(rm(slack_api_test_mode))
+
+library(httptest)
+
+# All tests use #slack-r on slackr-test (or a mocked version of it).
+slack_test_channel <- "CNTFB9215"
+withr::defer(rm(slack_test_channel))
+
+if (slack_api_test_mode == "true" || slack_api_test_mode == "capture") {
+  # In these modes we need a real API token. If one isn't set, this should throw
+  # an error right away.
+  if (Sys.getenv("SLACK_API_TOKEN") == "") {
+    stop(
+      "No SLACK_API_TOKEN available, cannot test. \n",
+      "Unset SLACK_API_TEST_MODE to use mock.")
+  }
+
+  if (slack_api_test_mode == "true") {
+    # Override the main mock function from httptest, so we use the real API.
+    with_mock_api <- force
+  } else {
+    # This tricks httptest into capturing results instead of actually testing.
+    with_mock_api <- httptest::capture_requests
+  }
+  withr::defer(rm(with_mock_api))
+}
+
+
+# Tests. -----------------------------------------------------------------------
+
+test_that("Can post snippets", {
+  expect_error(
+    with_mock_api({
+      res <- snippet_post(
+        channel = slack_test_channel,
+        content = "test"
+      )
+    }),
+    NA
+  )
+
+  expect_true(res$ok)
+  expect_identical(res$file$mode, "snippet")
+  expect_identical(res$file$preview, "test")
 })
 
-testthat::describe("delete snippet", {
+test_that("Can delete snippets", {
+  expect_error(
+    with_mock_api({
+      res <- file_delete(file_last())
+    }),
+    NA
+  )
 
-  res <- file_delete(file_last())
-
-  it('True result',{
-    testthat::expect_true(res$ok)
-  })
-
+  expect_true(res$ok)
 })
 
-testthat::describe("snippet post", {
+test_that("Can post files", {
+  # I can't get this to work with a recorded call, since the thing being
+  # uploaded changes slightly; a temp file or something similar is created by
+  # curl, so, even if I use a non-relative/non-random path, it fails. Therefore
+  # let's only test this when we're really hitting the API.
+  skip_if_not(
+    slack_api_test_mode == "true",
+    "Only test tempfile uploads against real API."
+  )
 
-  tf <- tempfile(fileext = '.r')
+  tf <- withr::local_tempfile(
+    fileext = ".R"
+  )
 
   cat(
     utils::capture.output(utils::sessionInfo()),
@@ -37,32 +93,29 @@ testthat::describe("snippet post", {
     sep = '\n'
   )
 
-  #post the file
-  res <- file_post(
-    channels = channel,
-    token = token,
-    file = tf,
-    filename = 'sessionInfo.R',
-    filetype = 'r',
-    title = 'R sessionInfo'
+  expect_error(
+    {
+      res <- file_post(
+        channels = slack_test_channel,
+        file = tf,
+        filename = "sessionInfo.R",
+        filetype = "r",
+        title = "R sessionInfo"
+      )
+    },
+    NA
   )
 
-  it('True result',{
-    testthat::expect_true(res$ok)
-  })
-
-  it('Validate title',{
-    testthat::expect_equal(res$file$title,'R sessionInfo')
-  })
-
+  expect_true(res$ok)
+  expect_equal(res$file$title, "R sessionInfo")
 })
 
-testthat::describe("delete file", {
+test_that("Can delete files", {
+  skip_if_not(
+    slack_api_test_mode == "true",
+    "Only test tempfile deletes against real API."
+  )
 
   res <- file_delete(file_last())
-
-  it('True result',{
-    testthat::expect_true(res$ok)
-  })
-
+  expect_true(res$ok)
 })
