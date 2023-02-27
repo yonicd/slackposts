@@ -1,6 +1,6 @@
 Tests and Coverage
 ================
-27 February, 2023 18:47:27
+27 February, 2023 19:44:21
 
   - [Coverage](#coverage)
   - [Unit Tests](#unit-tests)
@@ -28,8 +28,8 @@ Unit Test summary is created using the
 
 | file                                |  n |   time | error | failed | skipped | warning |
 | :---------------------------------- | -: | -----: | ----: | -----: | ------: | ------: |
-| [test-chat.R](testthat/test-chat.R) | 61 | 33.126 |     0 |      0 |       0 |       0 |
-| [test-file.R](testthat/test-file.R) | 10 |  3.307 |     0 |      0 |       0 |       0 |
+| [test-chat.R](testthat/test-chat.R) | 61 | 28.883 |     0 |      0 |       0 |       0 |
+| [test-file.R](testthat/test-file.R) | 10 |  3.226 |     0 |      0 |       0 |       0 |
 
 <details closed>
 
@@ -37,16 +37,16 @@ Unit Test summary is created using the
 
 | file                                          | context | test                                                          | status |  n |   time |
 | :-------------------------------------------- | :------ | :------------------------------------------------------------ | :----- | -: | -----: |
-| [test-chat.R](testthat/test-chat.R#L59_L67)   | chat    | Can delete any existing content                               | PASS   | 24 | 27.509 |
-| [test-chat.R](testthat/test-chat.R#L121_L129) | chat    | Can post a message                                            | PASS   |  3 |  0.272 |
-| [test-chat.R](testthat/test-chat.R#L137_L146) | chat    | Can update that message                                       | PASS   |  6 |  0.378 |
-| [test-chat.R](testthat/test-chat.R#L165_L173) | chat    | Can delete that post                                          | PASS   |  5 |  0.626 |
-| [test-chat.R](testthat/test-chat.R#L201_L209) | chat    | Can post messages to restore the channel to its desired state | PASS   | 20 |  4.094 |
-| [test-chat.R](testthat/test-chat.R#L215_L224) | chat    | Can reply to a message                                        | PASS   |  3 |  0.247 |
-| [test-file.R](testthat/test-file.R#L54_L62)   | file    | Can post snippets                                             | PASS   |  4 |  1.315 |
-| [test-file.R](testthat/test-file.R#L73_L78)   | file    | Can delete snippets                                           | PASS   |  2 |  0.325 |
-| [test-file.R](testthat/test-file.R#L98_L109)  | file    | Can post files                                                | PASS   |  3 |  1.376 |
-| [test-file.R](testthat/test-file.R#L125)      | file    | Can delete files                                              | PASS   |  1 |  0.291 |
+| [test-chat.R](testthat/test-chat.R#L59_L67)   | chat    | Can delete any existing content                               | PASS   | 24 | 25.367 |
+| [test-chat.R](testthat/test-chat.R#L121_L129) | chat    | Can post a message                                            | PASS   |  3 |  0.397 |
+| [test-chat.R](testthat/test-chat.R#L137_L146) | chat    | Can update that message                                       | PASS   |  6 |  0.229 |
+| [test-chat.R](testthat/test-chat.R#L165_L173) | chat    | Can delete that post                                          | PASS   |  5 |  0.396 |
+| [test-chat.R](testthat/test-chat.R#L201_L209) | chat    | Can post messages to restore the channel to its desired state | PASS   | 20 |  2.356 |
+| [test-chat.R](testthat/test-chat.R#L215_L224) | chat    | Can reply to a message                                        | PASS   |  3 |  0.138 |
+| [test-file.R](testthat/test-file.R#L54_L62)   | file    | Can post snippets                                             | PASS   |  4 |  1.244 |
+| [test-file.R](testthat/test-file.R#L73_L78)   | file    | Can delete snippets                                           | PASS   |  2 |  0.396 |
+| [test-file.R](testthat/test-file.R#L98_L109)  | file    | Can post files                                                | PASS   |  3 |  1.368 |
+| [test-file.R](testthat/test-file.R#L125)      | file    | Can delete files                                              | PASS   |  1 |  0.218 |
 
 </details>
 
@@ -57,7 +57,7 @@ Unit Test summary is created using the
 | Field    | Value                         |                                                                                                                                                                                                                                                                    |
 | :------- | :---------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Version  | R version 4.2.2 (2022-10-31)  |                                                                                                                                                                                                                                                                    |
-| Platform | x86\_64-pc-linux-gnu (64-bit) | <a href="https://github.com/yonicd/slackposts/commit/1ca53e725f7c187891d69dacf054d2e3f15b5d5a/checks" target="_blank"><span title="Built on Github Actions">![](https://github.com/metrumresearchgroup/covrpage/blob/actions/inst/logo/gh.png?raw=true)</span></a> |
+| Platform | x86\_64-pc-linux-gnu (64-bit) | <a href="https://github.com/yonicd/slackposts/commit/90fe2bb100f37548d2aeb26755a0577e82cd76b0/checks" target="_blank"><span title="Built on Github Actions">![](https://github.com/metrumresearchgroup/covrpage/blob/actions/inst/logo/gh.png?raw=true)</span></a> |
 | Running  | Ubuntu 22.04.2 LTS            |                                                                                                                                                                                                                                                                    |
 | Language | C                             |                                                                                                                                                                                                                                                                    |
 | Timezone | UTC                           |                                                                                                                                                                                                                                                                    |
