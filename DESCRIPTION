@@ -1,3 +1,4 @@
+Type: Package
 Package: slackposts
 Title: Send Messages to Slack
 Version: 0.0.2
